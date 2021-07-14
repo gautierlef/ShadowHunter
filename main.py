@@ -1,4 +1,3 @@
-from team import Team
 from location import Location
 from character import Character
 from player import Player
