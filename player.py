@@ -1,5 +1,5 @@
 from rolls import *
-
+import settings
 
 class Player:
     def __init__(self, character, order):
@@ -11,11 +11,45 @@ class Player:
         self.revealed = False
 
     def __str__(self):
-        return 'Player ' + str(self.order) + ' - Current HP : ' + str(self.current_damage)
+        return 'Joueur ' + str(self.order) + ' - Nombre de PV : ' + str(self.current_damage) + ' - Lieu : ' \
+               + str(self.current_location)
+
+    def set_location(self):
+        new_location = self.current_location
+        while self.current_location == new_location:
+            roll = roll_location()
+            if roll == 7:
+                print('Vous pouvez choisir votre destination.')
+                player_input = input()
+                roll = int(player_input)
+                if roll == 2:
+                    roll = 3
+                if roll == 4:
+                    roll = 5
+            new_location = next(location for location in settings.locations if location.roll == roll)
+        self.current_location = new_location
+
+    def is_near(self, other_player):
+        if self == other_player:
+            return False
+        if other_player.current_location == self.current_location:
+            return True
+        if other_player.current_location == 3 and self.current_location == 5:
+            return True
+        if other_player.current_location == 6 and self.current_location == 8:
+            return True
+        if other_player.current_location == 9 and self.current_location == 10:
+            return True
+        return False
 
     def attack(self, attacked_player):
-        attacked_player.current_damage += roll_attack()
-        print('Joueur ' + str(self.order) + ' attaque le joueur ' + str(attacked_player.order))
+        if self == attacked_player:
+            print('Vous ne pouvez pas vous attaquer vous même.')
+        elif self.is_near(attacked_player):
+            attacked_player.current_damage += roll_attack()
+            print('Joueur ' + str(self.order) + ' attaque le joueur ' + str(attacked_player.order) + '.')
+        else:
+            print('Le joueur ' + str(attacked_player.order) + ' ne se trouve pas à proximité.')
 
     def heal(self, amount):
         self.current_damage -= amount

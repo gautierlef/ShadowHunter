@@ -14,8 +14,13 @@ def roll_attack():
 def roll_location():
     d4 = random.randint(1, 4)
     d6 = random.randint(1, 6)
-    print(d4, d6)
-    return d4 + d6
+    result = d4 + d6
+    if result == 2:
+        result = 3
+    if result == 4:
+        result = 5
+    print("Vous avez obtenu un " + str(result) + ' au lancé de dés.')
+    return result
 
 
 def roll_teams_4_players():
@@ -25,5 +30,9 @@ def roll_teams_4_players():
     p4 = 1
 
 
-def roll_shadow_hunter():
+def roll_not_neutral_character():
     random.randint(0, 2)
+
+
+def roll_neutral_character():
+    random.randint(0, 3)

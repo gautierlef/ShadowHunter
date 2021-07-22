@@ -1,7 +1,10 @@
 class Location:
-    def __init__(self, name, rolls):
+    def __init__(self, name, roll):
         self.name = name
-        self.rolls = rolls
+        self.roll = roll
 
     def __str__(self):
-        return 'Location : ' + self.name
+        return self.name + ' - ' + str(self.roll)
+
+    def get_name(self):
+        return self.name
