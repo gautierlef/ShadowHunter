@@ -11,7 +11,7 @@ class Player:
         self.revealed = False
 
     def __str__(self):
-        return 'Joueur ' + str(self.order) + ' - Nombre de PV : ' + str(self.current_damage) + ' - Lieu : ' \
+        return 'Joueur ' + str(self.order) + ' - Nombre de blessures : ' + str(self.current_damage) + ' - Lieu : ' \
                + str(self.current_location)
 
     def set_location(self):
@@ -20,6 +20,7 @@ class Player:
             roll = roll_location()
             if roll == 7:
                 print('Vous pouvez choisir votre destination.')
+                print(*settings.locations, sep='\n')
                 player_input = input()
                 roll = int(player_input)
                 if roll == 2:
@@ -30,26 +31,34 @@ class Player:
         self.current_location = new_location
 
     def is_near(self, other_player):
-        if self == other_player:
+        if self == other_player or other_player.current_location is None:
             return False
         if other_player.current_location == self.current_location:
             return True
-        if other_player.current_location == 3 and self.current_location == 5:
+        if other_player.current_location.roll == 3 and self.current_location.roll == 5 or\
+           other_player.current_location.roll == 5 and self.current_location.roll == 3:
             return True
-        if other_player.current_location == 6 and self.current_location == 8:
+        if other_player.current_location.roll == 6 and self.current_location.roll == 8 or\
+           other_player.current_location.roll == 8 and self.current_location.roll == 6:
             return True
-        if other_player.current_location == 9 and self.current_location == 10:
+        if other_player.current_location.roll == 9 and self.current_location.roll == 10 or\
+           other_player.current_location.roll == 10 and self.current_location.roll == 9:
             return True
         return False
 
     def attack(self, attacked_player):
         if self == attacked_player:
             print('Vous ne pouvez pas vous attaquer vous même.')
+            return False
         elif self.is_near(attacked_player):
-            attacked_player.current_damage += roll_attack()
-            print('Joueur ' + str(self.order) + ' attaque le joueur ' + str(attacked_player.order) + '.')
+            damage = roll_attack()
+            attacked_player.current_damage += damage
+            print('Joueur ' + str(self.order) + ' attaque le joueur ' + str(attacked_player.order) + ' et lui inflige '
+                  + str(damage) + '.')
+            return True
         else:
             print('Le joueur ' + str(attacked_player.order) + ' ne se trouve pas à proximité.')
+            return True
 
     def heal(self, amount):
         self.current_damage -= amount
@@ -64,6 +73,7 @@ class Player:
     def is_dead(self):
         if self.current_damage >= self.character.hp:
             if not self.revealed:
+                self.current_location = None
                 self.reveal_character()
             return True
         return False

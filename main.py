@@ -25,6 +25,7 @@ if __name__ == '__main__':
     while not team_all_dead(hunters) and not team_all_dead(shadow) and player_input != 'exit':
         print('\n', *players, sep='\n')
         print('Tour du joueur ' + str(turn + 1))
+        attack_success = False
         current_player = players[turn]
         current_player.set_location()
         near_players = []
@@ -35,14 +36,15 @@ if __name__ == '__main__':
         if len(near_players) == 0:
             print('Aucun joueur proche.')
         else:
-            print('Les joueurs proches sont :', *near_players, sep='\n')
-            player_input = input()
-            if player_input == '1' or player_input == '2' or player_input == '3' or player_input == '4':
-                if not players[int(player_input)].is_dead():
-                    current_player.attack(players[int(player_input) - 1])
-                else:
-                    print('Joueur déjà mort')
-                    turn -= 1
+            while not attack_success and player_input != 'exit' and player_input != 'skip':
+                attack_success = False
+                print('Les joueurs proches sont :', *near_players, sep='\n')
+                player_input = input()
+                if player_input == '1' or player_input == '2' or player_input == '3' or player_input == '4':
+                    if not players[int(player_input) - 1].is_dead():
+                        attack_success = current_player.attack(players[int(player_input) - 1])
+                    else:
+                        print('Joueur déjà mort')
         turn += 1
         if turn > 3:
             turn = 0
