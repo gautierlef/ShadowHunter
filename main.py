@@ -12,6 +12,12 @@ def team_all_dead(team):
     return all_dead
 
 
+def correct_input(input):
+    if input == '1' or input == '2' or input == '3' or input == '4' or input == 'skip' or input == 'exit':
+        return True
+    return False
+
+
 if __name__ == '__main__':
     players = [
         Player(settings.emi, 1),
@@ -43,7 +49,7 @@ if __name__ == '__main__':
             while (player_input != '1' and player_input != '2' and player_input != '3' and player_input != '4'
                    and player_input != 'skip'):
                 player_input = input()
-                if player_input == '1' or player_input == '2' or player_input == '3' or player_input == '4':
+                if correct_input(player_input) and player_input != 'skip':
                     if not players[int(player_input) - 1].is_dead():
                         card.draw_card(roll, players[int(player_input) - 1])
                     else:
@@ -57,7 +63,7 @@ if __name__ == '__main__':
                 attack_success = False
                 print('Les joueurs proches sont :', *near_players, sep='\n')
                 player_input = input()
-                if player_input == '1' or player_input == '2' or player_input == '3' or player_input == '4':
+                if correct_input(player_input) and player_input != 'skip':
                     if not players[int(player_input) - 1].is_dead():
                         attack_success = current_player.attack(players[int(player_input) - 1])
                     else:

@@ -17,12 +17,15 @@ class Player:
 
     def set_location(self):
         new_location = self.current_location
+        player_input = ''
         while self.current_location == new_location:
             roll = roll_location()
             if roll == 7:
                 print('Vous pouvez choisir votre destination.')
                 print(*settings.locations, sep='\n')
-                player_input = input()
+                while player_input != '2' and player_input != '3' and player_input != '4' and player_input != '5' and\
+                        player_input != '6' and player_input != '8' and player_input != '9' and player_input != '10':
+                    player_input = input()
                 roll = int(player_input)
                 if roll == 2:
                     roll = 3
@@ -73,6 +76,7 @@ class Player:
 
     def is_dead(self):
         if self.current_damage >= self.character.hp:
+            print('Joueur ' + str(self.order) + ' est mort.')
             if not self.revealed:
                 self.current_location = None
                 self.reveal_character()
