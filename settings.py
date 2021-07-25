@@ -1,3 +1,4 @@
+from cards import Card
 from location import Location
 from character import Character
 
@@ -9,6 +10,14 @@ locations = [
     Location('Le Cimetière', 8),
     Location('La Forêt hantée', 9),
     Location('Le Sanctuaire ancien', 10)
+]
+
+global vision_cards
+vision_cards = [
+    Card('Vision mortifère', 'Je pense que tu es Hunter. Si c\'est le cas subis 1 Blessure!'),
+    Card('Vision divine', 'Je pense que tu es Hunter. Si c\'est le cas soigne 1 Blessure.'),
+    Card('Vision foudroyante', 'Je pense que tu es Shadow. Si c\'est le cas subis 1 Blessure!'),
+    Card('Vision lugubre', 'Je pense que tu es Shadow. Si c\'est le cas soigne 1 Blessure.')
 ]
 
 global emi

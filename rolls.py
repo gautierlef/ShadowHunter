@@ -1,4 +1,5 @@
 from datetime import datetime
+from settings import vision_cards
 import random
 
 random.seed(datetime.now())
@@ -21,6 +22,11 @@ def roll_location():
         result = 5
     print("Vous avez obtenu un " + str(result) + ' au lancé de dés.')
     return result
+
+
+def roll_vision_card():
+    d4 = random.randint(1, 4)
+    return d4 - 1
 
 
 def roll_teams_4_players():

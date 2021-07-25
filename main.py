@@ -1,6 +1,7 @@
 from player import Player
 from cards import Card
 import settings
+from rolls import roll_vision_card
 
 
 def team_all_dead(team):
@@ -25,6 +26,7 @@ if __name__ == '__main__':
     while not team_all_dead(hunters) and not team_all_dead(shadow) and player_input != 'exit':
         print('\n', *players, sep='\n')
         print('Tour du joueur ' + str(turn + 1))
+        player_input = ''
         attack_success = False
         current_player = players[turn]
         current_player.set_location()
@@ -33,6 +35,21 @@ if __name__ == '__main__':
             if current_player.is_near(player):
                 near_players.append(player)
         print('Vous vous trouvez dans ' + current_player.current_location.get_name())
+        if current_player.current_location == settings.locations[0]:
+            roll = roll_vision_card()
+            card = settings.vision_cards[roll]
+            print(card)
+            print('A qui voulez vous appliquer l\'effet ?')
+            while (player_input != '1' and player_input != '2' and player_input != '3' and player_input != '4'
+                   and player_input != 'skip'):
+                player_input = input()
+                if player_input == '1' or player_input == '2' or player_input == '3' or player_input == '4':
+                    if not players[int(player_input) - 1].is_dead():
+                        card.draw_card(roll, players[int(player_input) - 1])
+                    else:
+                        print('Joueur déjà mort')
+                        player_input = ''
+        player_input = ''
         if len(near_players) == 0:
             print('Aucun joueur proche.')
         else:

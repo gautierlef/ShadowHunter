@@ -1,6 +1,7 @@
 from rolls import *
 import settings
 
+
 class Player:
     def __init__(self, character, order):
         self.character = character
@@ -54,7 +55,7 @@ class Player:
             damage = roll_attack()
             attacked_player.current_damage += damage
             print('Joueur ' + str(self.order) + ' attaque le joueur ' + str(attacked_player.order) + ' et lui inflige '
-                  + str(damage) + '.')
+                  + str(damage) + ' Blessures.')
             return True
         else:
             print('Le joueur ' + str(attacked_player.order) + ' ne se trouve pas à proximité.')
