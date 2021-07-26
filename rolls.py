@@ -1,5 +1,4 @@
 from datetime import datetime
-from settings import vision_cards
 import random
 
 random.seed(datetime.now())

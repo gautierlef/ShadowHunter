@@ -1,5 +1,4 @@
 from player import Player
-from cards import Card
 import settings
 from rolls import roll_vision_card
 
